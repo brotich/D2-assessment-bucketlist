@@ -1,4 +1,6 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
+
+from app.models.users import Users
 
 users_bp = Blueprint('users', __name__, url_prefix='/users')
 
@@ -6,7 +8,15 @@ users_bp = Blueprint('users', __name__, url_prefix='/users')
 @users_bp.route('/', methods=('GET',))
 def get_all_users():
     """get all users"""
-    return 'get all users', 200
+    all_users = Users.query.all()
+
+    response = [
+        {
+            'id': user.id,
+            'name': user.name,
+        } for user in all_users
+    ]
+    return jsonify(response), 200
 
 
 @users_bp.route('/', methods=('POST',))
@@ -31,5 +41,3 @@ def update_single_user(user_id):
 def delete_single_user(user_id):
     """add new user"""
     return 'delete', 200
-
-

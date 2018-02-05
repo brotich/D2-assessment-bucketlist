@@ -1,7 +1,7 @@
 from app import db
 
 
-class BaseDBModel(db.Model):
+class BaseDBModel(object):
     """contain common shared functions for database interaction"""
     def save(self):
         """writes the model data into the database"""
