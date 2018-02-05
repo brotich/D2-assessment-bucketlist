@@ -10,6 +10,9 @@ def get_all_users():
     """get all users"""
     all_users = Users.query.all()
 
+    if not all_users:
+        return jsonify({'message': 'no users found'}), 404
+
     response = [
         {
             'id': user.id,
