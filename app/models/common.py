@@ -8,6 +8,11 @@ class BaseDBModel(object):
         db.session.add(self)
         db.session.commit()
 
+    def delete(self):
+        """delete the instance from database"""
+        db.session.delete(self)
+        db.session.commit()
+
     def refresh_from_db(self):
         """gets the updated model from the database using the object is
 

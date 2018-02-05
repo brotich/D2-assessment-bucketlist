@@ -82,4 +82,12 @@ def update_single_user(user_id):
 @users_bp.route('/<user_id>', methods=('DELETE',))
 def delete_single_user(user_id):
     """add new user"""
-    return 'delete', 200
+    user = Users.query.filter_by(id=user_id).scalar()
+    if not user:
+        return send_error_message('user not found for id specified', 404)
+
+    user.delete()
+    return jsonify({
+        'name': user.name,
+        'id': user.id,
+    }), 200
