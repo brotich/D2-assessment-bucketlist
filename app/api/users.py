@@ -41,7 +41,16 @@ def add_new_user():
     if 'name' not in req_json:
         return send_error_message('missing "name" property in request', 400)
 
-    return 'get all users', 200
+    name = req_json.get('name')
+
+    new_user = Users(name=name)
+    new_user.save()
+    new_user.refresh_from_db()
+
+    return jsonify({
+        'name': new_user.name,
+        'id': new_user.id,
+    }), 200
 
 
 @users_bp.route('/<user_id>', methods=('GET',))
